@@ -289,6 +289,8 @@ public abstract class TrinoMetadataBase implements ConnectorMetadata {
         } catch (Catalog.TableNotExistException e) {
             throw new RuntimeException(
                     format("table not exists: '%s'", trinoTableHandle.getTableName()));
+        } catch (Catalog.ColumnAlreadyExistException | Catalog.ColumnNotExistException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -309,6 +311,8 @@ public abstract class TrinoMetadataBase implements ConnectorMetadata {
         } catch (Catalog.TableNotExistException e) {
             throw new RuntimeException(
                     format("table not exists: '%s'", trinoTableHandle.getTableName()));
+        } catch (Catalog.ColumnAlreadyExistException | Catalog.ColumnNotExistException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -326,6 +330,8 @@ public abstract class TrinoMetadataBase implements ConnectorMetadata {
         } catch (Catalog.TableNotExistException e) {
             throw new RuntimeException(
                     format("table not exists: '%s'", trinoTableHandle.getTableName()));
+        } catch (Catalog.ColumnAlreadyExistException | Catalog.ColumnNotExistException e) {
+            throw new RuntimeException(e);
         }
     }
 
