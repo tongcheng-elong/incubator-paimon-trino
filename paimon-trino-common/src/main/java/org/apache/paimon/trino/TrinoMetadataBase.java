@@ -57,11 +57,11 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 
-import static com.google.common.base.Preconditions.checkArgument;
 import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
+import static org.apache.paimon.utils.Preconditions.checkArgument;
 
 /** Trino {@link ConnectorMetadata}. */
 public abstract class TrinoMetadataBase implements ConnectorMetadata {
@@ -286,11 +286,9 @@ public abstract class TrinoMetadataBase implements ConnectorMetadata {
                         column.getName(), TrinoTypeUtils.toPaimonType(column.getType())));
         try {
             catalog.alterTable(identifier, changes, false);
-        } catch (Catalog.TableNotExistException e) {
+        } catch (Exception e) {
             throw new RuntimeException(
-                    format("table not exists: '%s'", trinoTableHandle.getTableName()));
-        } catch (Catalog.ColumnAlreadyExistException | Catalog.ColumnNotExistException e) {
-            throw new RuntimeException(e);
+                    format("failed to alter table: '%s'", trinoTableHandle.getTableName()), e);
         }
     }
 
@@ -308,11 +306,9 @@ public abstract class TrinoMetadataBase implements ConnectorMetadata {
         changes.add(SchemaChange.renameColumn(trinoColumnHandle.getColumnName(), target));
         try {
             catalog.alterTable(identifier, changes, false);
-        } catch (Catalog.TableNotExistException e) {
+        } catch (Exception e) {
             throw new RuntimeException(
-                    format("table not exists: '%s'", trinoTableHandle.getTableName()));
-        } catch (Catalog.ColumnAlreadyExistException | Catalog.ColumnNotExistException e) {
-            throw new RuntimeException(e);
+                    format("failed to alter table: '%s'", trinoTableHandle.getTableName()), e);
         }
     }
 
@@ -327,11 +323,9 @@ public abstract class TrinoMetadataBase implements ConnectorMetadata {
         changes.add(SchemaChange.dropColumn(trinoColumnHandle.getColumnName()));
         try {
             catalog.alterTable(identifier, changes, false);
-        } catch (Catalog.TableNotExistException e) {
+        } catch (Exception e) {
             throw new RuntimeException(
-                    format("table not exists: '%s'", trinoTableHandle.getTableName()));
-        } catch (Catalog.ColumnAlreadyExistException | Catalog.ColumnNotExistException e) {
-            throw new RuntimeException(e);
+                    format("failed to alter table: '%s'", trinoTableHandle.getTableName()), e);
         }
     }
 

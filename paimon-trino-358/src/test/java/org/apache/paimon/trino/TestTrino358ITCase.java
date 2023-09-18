@@ -18,28 +18,14 @@
 
 package org.apache.paimon.trino;
 
-import org.apache.paimon.shade.guava30.com.google.common.collect.ImmutableMap;
+import org.testng.annotations.Test;
 
-import io.trino.spi.connector.Connector;
-import io.trino.spi.connector.ConnectorFactory;
-import io.trino.testing.TestingConnectorContext;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.io.TempDir;
+/** {@link TestTrinoITCase} for Trino 358. */
+public class TestTrino358ITCase extends TestTrinoITCase {
 
-import java.util.Map;
-
-import static org.assertj.core.api.Assertions.assertThat;
-
-/** Test for {@link TrinoConnectorFactory}. */
-public class TestTrinoConnectorFactory {
-
-    @TempDir java.nio.file.Path tempFile;
-
+    @Override
     @Test
-    public void testCreateConnector() {
-        Map<String, String> config = ImmutableMap.of("warehouse", tempFile.toString());
-        ConnectorFactory factory = new TrinoConnectorFactory();
-        Connector connector = factory.create("paimon", config, new TestingConnectorContext());
-        assertThat(connector).isNotNull();
+    public void testSetTableProperties() {
+        // not supported
     }
 }
